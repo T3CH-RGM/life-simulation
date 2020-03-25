@@ -10,9 +10,13 @@ public class AgentsCreation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < agentsAmount; i++)
+        var rand = new Random();
+
+        for (int i = 0; i < agentsAmount; i++)
         {
-            Instantiate(prefab, new Vector3(0, i*1F, 0), Quaternion.identity);
+            float xPos = Random.Range(-9.5f, 9.5f);
+            float yPos = Random.Range(-9.5f, 9.5f);
+            Instantiate(prefab, new Vector3(xPos, 2F, yPos), Quaternion.identity);
         }
     }
 
