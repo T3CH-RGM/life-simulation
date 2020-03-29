@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0578137f67ea40540bf2eb4b1b903356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodAmount: 500
+  foodAmount: 10
   foodObject: {fileID: 3734334836141330627, guid: 42299555640bc3143b51d7b5f02bb727,
     type: 3}
 --- !u!114 &546414224

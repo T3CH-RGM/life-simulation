@@ -20,13 +20,13 @@ public class AgentController : MonoBehaviour
         var rand = new Random();
         rb = GetComponent<Rigidbody>();
 
-        Debug.Log("Agent " + generation + " born with " + initialEnergy + " energy.");
+        // Debug.Log("Agent " + generation + " born with " + initialSpeed + " speed.");
     }
 
     void FixedUpdate()
     {
         bool moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
-        float randomMove = Random.Range(-50f, 50f);
+        float randomMove = Random.Range(-100f, 100f);
         Vector3 movment = moveOrientation ? new Vector3(randomMove, 0.0f, 0.0f) :
             new Vector3(0.0f, 0.0f, randomMove);
 
@@ -36,9 +36,9 @@ public class AgentController : MonoBehaviour
 
         if (energy <= 0)
         {
-            Debug.Log("Agent " + generation + " died but left " + children + " children.");
+            // Debug.Log("Agent " + generation + " died but left " + children + " children.");
+            FindObjectsOfType<AgentsCreation>()[0].agents.Remove(gameObject);
             Destroy(gameObject);
-            Debug.Log("Agents alive: " + FindObjectsOfType<AgentController>().Length);
         }
     }
 
@@ -46,25 +46,30 @@ public class AgentController : MonoBehaviour
     {
         if (collision.gameObject.name == "Food(Clone)")
         {
-            energy += initialEnergy * 0.1F;
+            energy += initialEnergy * 0.25F;
 
-            if (energy >= initialEnergy * 1.5)
+            if (energy >= initialEnergy * 1.5F)
             {
-                children++;
-                energy /= children + 1;
-
-                float xPos = Random.Range(-9.5f, 9.5f);
-                float yPos = Random.Range(-9.5f, 9.5f);
-
-                GameObject newAgent = Instantiate(gameObject, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
-                newAgent.GetComponent<AgentController>().generation += "." + children.ToString();
-                newAgent.GetComponent<AgentController>().energy = initialEnergy;
-                newAgent.GetComponent<AgentController>().children = 0;
-
-                Debug.Log("Agents alive: " + FindObjectsOfType<AgentController>().Length);
+                reproduce();
             }
 
             Destroy(collision.gameObject);
         }
+    }
+
+    void reproduce()
+    {
+        children++;
+        energy /= children + 1;
+
+        float xPos = Random.Range(-9.5f, 9.5f);
+        float yPos = Random.Range(-9.5f, 9.5f);
+
+        GameObject newAgent = Instantiate(gameObject, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
+        newAgent.GetComponent<AgentController>().generation += "." + children.ToString();
+        newAgent.GetComponent<AgentController>().energy = initialEnergy;
+        newAgent.GetComponent<AgentController>().children = 0;
+        newAgent.GetComponent<AgentController>().speed += Random.Range(speed - 1, speed / 2.0F);
+        FindObjectsOfType<AgentsCreation>()[0].agents.Add(newAgent);
     }
 }
