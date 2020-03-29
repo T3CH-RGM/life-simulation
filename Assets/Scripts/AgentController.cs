@@ -28,13 +28,13 @@ public class AgentController : MonoBehaviour
         if (energy > 0)
         {
             bool moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
-            float randomMove = Random.Range(-14.5f, 14.5f);
+            float randomMove = Random.Range(-50f, 50f);
             Vector3 movement = moveOrientation ? new Vector3(randomMove, 0.0f, 0.0f) :
                 new Vector3(0.0f, 0.0f, randomMove);
 
             rb.AddForce(movement * speed);
 
-            energy -= randomMove + Mathf.Pow(speed, 2F);
+            energy -= randomMove * Mathf.Pow(speed, 2F);
         }
     }
 
