@@ -16,13 +16,13 @@ public class AgentsCreation : MonoBehaviour
         {
             float xPos = Random.Range(-9.5f, 9.5f);
             float yPos = Random.Range(-9.5f, 9.5f);
-            Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
+            GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
+            newAgent.GetComponent<AgentController>().generation = i.ToString();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
