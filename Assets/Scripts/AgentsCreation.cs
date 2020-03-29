@@ -7,15 +7,10 @@ public class AgentsCreation : MonoBehaviour
     public GameObject prefab;
     public int agentsAmount;
 
-    public List<GameObject> agents;
-    int lastAgents;
-
     // Start is called before the first frame update
     void Start()
     {
         var rand = new Random();
-
-        agents = new List<GameObject>();
 
         for (int i = 0; i < agentsAmount; i++)
         {
@@ -23,8 +18,6 @@ public class AgentsCreation : MonoBehaviour
             float yPos = Random.Range(-9.5f, 9.5f);
             GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
             newAgent.GetComponent<AgentController>().generation = i.ToString();
-
-            agents.Add(newAgent);
         }
 
         StartCoroutine(stats());
@@ -40,12 +33,26 @@ public class AgentsCreation : MonoBehaviour
 
         yield return new WaitForSeconds(5.0f);
         float speed = 0;
-        Debug.Log("Agents alive: " + agents.Count);
-        foreach (GameObject agent in agents)
+        int agentsInGeneration = FindObjectsOfType<AgentController>().Length;
+        Debug.Log("Agents alive: " + agentsInGeneration);
+        foreach (AgentController agent in FindObjectsOfType<AgentController>())
         {
-            speed += agent.GetComponent<AgentController>().speed;
+            AgentController agentController = agent.GetComponent<AgentController>();
+            speed += agentController.speed;
+            if (agentController.food == 0)
+            {
+                agentController.die();
+            }
+            else if (agentController.food >= 2)
+            {
+                agentController.reproduce();
+            }
+            else
+            {
+                agentController.food = 0;
+            }
         }
-        Debug.Log("Speed avg: " + (speed / (agents.Count * 1.0f)));
+        Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
         StartCoroutine(stats());
     }
 }

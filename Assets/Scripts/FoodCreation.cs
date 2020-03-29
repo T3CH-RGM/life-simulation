@@ -11,7 +11,7 @@ public class FoodCreation : MonoBehaviour
     {
         initialAgents = FindObjectsOfType<AgentsCreation>()[0].agentsAmount;
         addRandomFood(foodAmount);
-        StartCoroutine(DoEverySecond());
+        StartCoroutine(refillFood());
     }
 
     // Update is called once per frame
@@ -24,12 +24,12 @@ public class FoodCreation : MonoBehaviour
         } */
     }
 
-    IEnumerator DoEverySecond()
+    IEnumerator refillFood()
     {
 
-        yield return new WaitForSeconds(1.0f);
-        addRandomFood(5);
-        StartCoroutine(DoEverySecond());
+        yield return new WaitForSeconds(5.0f);
+        addRandomFood(foodAmount - GameObject.FindGameObjectsWithTag("Food").Length);
+        StartCoroutine(refillFood());
     }
 
     void addRandomFood(int amount)
