@@ -18,6 +18,7 @@ public class AgentsCreation : MonoBehaviour
             float yPos = Random.Range(-9.5f, 9.5f);
             GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
             newAgent.GetComponent<AgentController>().id = i.ToString();
+            newAgent.GetComponent<AgentController>().moveToBorder();
         }
 
         StartCoroutine(stats());
@@ -31,8 +32,10 @@ public class AgentsCreation : MonoBehaviour
     IEnumerator stats()
     {
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(10.0f);
         float speed = 0;
+        int agentsDied = 0;
+        int agentsBorn = 0;
         int agentsInGeneration = FindObjectsOfType<AgentController>().Length;
         Debug.Log("Agents alive: " + agentsInGeneration);
         foreach (AgentController agent in FindObjectsOfType<AgentController>())
@@ -42,18 +45,26 @@ public class AgentsCreation : MonoBehaviour
             if (agentController.food == 0)
             {
                 agentController.die();
+                agentsDied++;
             }
             else if (agentController.food >= 2)
             {
                 agentController.reproduce();
                 agentController.food = 0;
+                agentController.energy = agentController.initialEnergy;
+                agentsBorn++;
+                agentController.moveToBorder();
             }
             else
             {
                 agentController.food = 0;
+                agentController.energy = agentController.initialEnergy;
+                agentController.moveToBorder();
             }
         }
         Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
+        Debug.Log("Agents born: " + agentsBorn);
+        Debug.Log("Agents dead: " + agentsDied);
         StartCoroutine(stats());
     }
 }
