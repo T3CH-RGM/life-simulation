@@ -16,7 +16,7 @@ public class AgentsCreation : MonoBehaviour
         {
             float xPos = Random.Range(-9.5f, 9.5f);
             float yPos = Random.Range(-9.5f, 9.5f);
-            Instantiate(prefab, new Vector3(xPos, 2F, yPos), Quaternion.identity);
+            Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
         }
     }
 
