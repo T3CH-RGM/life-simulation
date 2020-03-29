@@ -5,18 +5,17 @@ public class FoodCreation : MonoBehaviour
 {
     public int foodAmount;
     public GameObject foodObject;
+    private int initialAgents;
     // Start is called before the first frame update
     void Start()
     {
-
         addRandomFood(foodAmount);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameObject.FindGameObjectsWithTag("Food").Length < foodAmount * 0.95)
+        if (GameObject.FindGameObjectsWithTag("Food").Length < foodAmount * 0.6)
         {
             addRandomFood(foodAmount - GameObject.FindGameObjectsWithTag("Food").Length);
         }
