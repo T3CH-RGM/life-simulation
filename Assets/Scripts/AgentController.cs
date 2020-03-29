@@ -27,51 +27,52 @@ public class AgentController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (energy > 0)
+        if (!found_food)
         {
-            if (!found_food)
-            {
-                int i = 0;
-                int closest = -1;
-                float closest_distance = Mathf.Infinity;
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2);
+            int i = 0;
+            int closest = -1;
+            float closest_distance = Mathf.Infinity;
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
 
-                while (i < hitColliders.Length)
+            while (i < hitColliders.Length)
+            {
+                if (hitColliders[i].gameObject.tag == "Food")
                 {
-                    if (hitColliders[i].gameObject.tag == "Food")
+                    if (Vector3.Distance(transform.position, hitColliders[i].transform.position) < closest_distance)
                     {
-                        if (Vector3.Distance(transform.position, hitColliders[i].transform.position) < closest_distance)
-                        {
-                            closest = i;
-                        }
+                        closest = i;
                     }
-
-                    i++;
                 }
 
-                if (closest != -1)
-                {
-                    found_food = true;
-                    food_pos = hitColliders[closest].transform.position;
-                }
+                i++;
             }
 
-
-            if (found_food)
+            if (closest != -1)
             {
-                transform.position = Vector3.MoveTowards(transform.position, food_pos, speed * Time.deltaTime);
+                found_food = true;
+                food_pos = hitColliders[closest].transform.position;
             }
-            else
-            {
-                bool moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
-                float randomMove = Random.Range(-14.5f, 14.5f);
-                Vector3 movement = moveOrientation ? new Vector3(randomMove, 0.0f, 0.0f) :
-                    new Vector3(0.0f, 0.0f, randomMove);
+        }
 
-                rb.AddForce(movement * speed);
 
-                energy -= randomMove * Mathf.Pow(speed, 2F);
-            }
+        if (found_food)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, food_pos, speed * Time.deltaTime);
+        }
+        else
+        {
+            bool moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
+            bool moveX = Random.Range(0, 2) == 1; // True = X | False = Z
+            bool moveZ = Random.Range(0, 2) == 1; // True = X | False = Z
+            float randomMoveX = moveX ? 10.0f : -10.0f;
+            float randomMoveZ = moveZ ? 10.0f : -10.0f;
+            // Vector3 movement = moveOrientation ? new Vector3(move, 0.0f, 0.0f) : new Vector3(0.0f, 0.0f, move);
+            Vector3 movement = new Vector3(randomMoveX, 0.0f, randomMoveZ);
+
+            Debug.Log(Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + movement, speed * Time.deltaTime);
+
+            energy -= Mathf.Pow(speed, 2F);
         }
     }
 
