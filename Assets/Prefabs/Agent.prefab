@@ -105,9 +105,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6507d533740eb4fa5b8b883367420773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 500
+  energy: 10000
+  initialEnergy: 0
   speed: 1
-  generation: 
+  id: 
+  food: 0
 --- !u!54 &54108080404415120
 Rigidbody:
   m_ObjectHideFlags: 0

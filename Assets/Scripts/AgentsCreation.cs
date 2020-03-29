@@ -6,6 +6,7 @@ public class AgentsCreation : MonoBehaviour
 {
     public GameObject prefab;
     public int agentsAmount;
+    public int generation;
 
     // Start is called before the first frame update
     void Start()
@@ -14,11 +15,10 @@ public class AgentsCreation : MonoBehaviour
 
         for (int i = 0; i < agentsAmount; i++)
         {
-            float xPos = Random.Range(-9.5f, 9.5f);
-            float yPos = Random.Range(-9.5f, 9.5f);
+            float xPos = Random.Range(-14.5f, 14.5f);
+            float yPos = Random.Range(-14.5f, 14.5f);
             GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
             newAgent.GetComponent<AgentController>().id = i.ToString();
-            newAgent.GetComponent<AgentController>().moveToBorder();
         }
 
         StartCoroutine(stats());
@@ -37,6 +37,7 @@ public class AgentsCreation : MonoBehaviour
         int agentsDied = 0;
         int agentsBorn = 0;
         int agentsInGeneration = FindObjectsOfType<AgentController>().Length;
+        Debug.Log("GENERATION: " + generation);
         Debug.Log("Agents alive: " + agentsInGeneration);
         foreach (AgentController agent in FindObjectsOfType<AgentController>())
         {
@@ -53,18 +54,17 @@ public class AgentsCreation : MonoBehaviour
                 agentController.food = 0;
                 agentController.energy = agentController.initialEnergy;
                 agentsBorn++;
-                agentController.moveToBorder();
             }
             else
             {
                 agentController.food = 0;
                 agentController.energy = agentController.initialEnergy;
-                agentController.moveToBorder();
             }
         }
-        Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
         Debug.Log("Agents born: " + agentsBorn);
         Debug.Log("Agents dead: " + agentsDied);
+        Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
+        generation++;
         StartCoroutine(stats());
     }
 }

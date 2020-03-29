@@ -36,8 +36,8 @@ public class FoodCreation : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            float xPos = Random.Range(-13f, 13f);
-            float yPos = Random.Range(-13f, 13f);
+            float xPos = Random.Range(-14.5f, 14.5f);
+            float yPos = Random.Range(-14.5f, 14.5f);
             Instantiate(foodObject, new Vector3(xPos, 0.3F, yPos), Quaternion.identity);
         }
     }
