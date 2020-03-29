@@ -13,6 +13,8 @@ public class AgentController : MonoBehaviour
     private int children = 0;
 
     public int food = 0;
+    private bool found_food = false;
+    private Vector3 food_pos;
 
     // Start is called before the first frame update
     void Start()
@@ -27,14 +29,49 @@ public class AgentController : MonoBehaviour
     {
         if (energy > 0)
         {
-            bool moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
-            float randomMove = Random.Range(-50f, 50f);
-            Vector3 movement = moveOrientation ? new Vector3(randomMove, 0.0f, 0.0f) :
-                new Vector3(0.0f, 0.0f, randomMove);
+            if (!found_food)
+            {
+                int i = 0;
+                int closest = -1;
+                float closest_distance = Mathf.Infinity;
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2);
 
-            rb.AddForce(movement * speed);
+                while (i < hitColliders.Length)
+                {
+                    if (hitColliders[i].gameObject.tag == "Food")
+                    {
+                        if (Vector3.Distance(transform.position, hitColliders[i].transform.position) < closest_distance)
+                        {
+                            closest = i;
+                        }
+                    }
 
-            energy -= randomMove * Mathf.Pow(speed, 2F);
+                    i++;
+                }
+
+                if (closest != -1)
+                {
+                    found_food = true;
+                    food_pos = hitColliders[closest].transform.position;
+                }
+            }
+
+
+            if (found_food)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, food_pos, speed * Time.deltaTime);
+            }
+            else
+            {
+                bool moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
+                float randomMove = Random.Range(-14.5f, 14.5f);
+                Vector3 movement = moveOrientation ? new Vector3(randomMove, 0.0f, 0.0f) :
+                    new Vector3(0.0f, 0.0f, randomMove);
+
+                rb.AddForce(movement * speed);
+
+                energy -= randomMove * Mathf.Pow(speed, 2F);
+            }
         }
     }
 
@@ -44,6 +81,8 @@ public class AgentController : MonoBehaviour
         {
             food++;
             Destroy(collision.gameObject);
+            found_food = false;
+
         }
     }
 
