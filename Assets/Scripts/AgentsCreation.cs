@@ -17,7 +17,7 @@ public class AgentsCreation : MonoBehaviour
             float xPos = Random.Range(-9.5f, 9.5f);
             float yPos = Random.Range(-9.5f, 9.5f);
             GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
-            newAgent.GetComponent<AgentController>().generation = i.ToString();
+            newAgent.GetComponent<AgentController>().id = i.ToString();
         }
 
         StartCoroutine(stats());
@@ -46,6 +46,7 @@ public class AgentsCreation : MonoBehaviour
             else if (agentController.food >= 2)
             {
                 agentController.reproduce();
+                agentController.food = 0;
             }
             else
             {
