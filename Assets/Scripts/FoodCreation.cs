@@ -27,7 +27,7 @@ public class FoodCreation : MonoBehaviour
     IEnumerator refillFood()
     {
 
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(2.0f);
         addRandomFood(foodAmount - GameObject.FindGameObjectsWithTag("Food").Length);
         StartCoroutine(refillFood());
     }

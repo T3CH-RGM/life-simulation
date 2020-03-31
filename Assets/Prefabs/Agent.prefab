@@ -106,10 +106,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energy: 10000
-  initialEnergy: 0
+  initialEnergy: 1
   speed: 1
+  initialSpeed: 1
+  size: 1
+  initialSize: 1
+  sense: 1
+  initialSense: 1
   id: 
   food: 0
+  initalMoves: 20
 --- !u!54 &54108080404415120
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -32,39 +32,45 @@ public class AgentsCreation : MonoBehaviour
     IEnumerator stats()
     {
 
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(2.0f);
         float speed = 0;
+        float sense = 0;
         int agentsDied = 0;
         int agentsBorn = 0;
         int agentsInGeneration = FindObjectsOfType<AgentController>().Length;
-        Debug.Log("GENERATION: " + generation);
-        Debug.Log("Agents alive: " + agentsInGeneration);
         foreach (AgentController agent in FindObjectsOfType<AgentController>())
         {
             AgentController agentController = agent.GetComponent<AgentController>();
             speed += agentController.speed;
-            if (agentController.food == 0)
+            sense += agentController.sense;
+            float mutationsValue = agentController.getMutationsValue();
+            if (agentController.food > mutationsValue*2)
+            {
+                agentController.reproduce();
+                agentController.surviveGeneration();
+                agentsBorn++;
+            }
+            else if (agentController.food >= mutationsValue)
+            {
+                agentController.surviveGeneration();
+            }
+            else
             {
                 agentController.die();
                 agentsDied++;
             }
-            else if (agentController.food >= 2)
-            {
-                agentController.reproduce();
-                agentController.food = 0;
-                agentController.energy = agentController.initialEnergy;
-                agentsBorn++;
-            }
-            else
-            {
-                agentController.food = 0;
-                agentController.energy = agentController.initialEnergy;
-            }
         }
+        showStats(generation, agentsInGeneration, agentsBorn, agentsDied, speed, sense);
+        generation++;
+        StartCoroutine(stats());
+    }
+
+    public void showStats(int generation, int agentsInGeneration, int agentsBorn, int agentsDied, float speed, float sense) {
+        Debug.Log("GENERATION: " + generation);
+        Debug.Log("Agents alive: " + agentsInGeneration);
         Debug.Log("Agents born: " + agentsBorn);
         Debug.Log("Agents dead: " + agentsDied);
         Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
-        generation++;
-        StartCoroutine(stats());
+        Debug.Log("Sense avg: " + (sense / (agentsInGeneration * 1.0f)));
     }
 }
