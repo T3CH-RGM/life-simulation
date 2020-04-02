@@ -35,6 +35,7 @@ public class AgentsCreation : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         float speed = 0;
         float sense = 0;
+        float size = 0;
         int agentsDied = 0;
         int agentsBorn = 0;
         int agentsInGeneration = FindObjectsOfType<AgentController>().Length;
@@ -43,8 +44,9 @@ public class AgentsCreation : MonoBehaviour
             AgentController agentController = agent.GetComponent<AgentController>();
             speed += agentController.speed;
             sense += agentController.sense;
+            size += agentController.size;
             float mutationsValue = agentController.getMutationsValue();
-            if (agentController.food > mutationsValue*2)
+            if (agentController.food > mutationsValue * 2)
             {
                 agentController.reproduce();
                 agentController.surviveGeneration();
@@ -60,17 +62,19 @@ public class AgentsCreation : MonoBehaviour
                 agentsDied++;
             }
         }
-        showStats(generation, agentsInGeneration, agentsBorn, agentsDied, speed, sense);
+        showStats(generation, agentsInGeneration, agentsBorn, agentsDied, speed, sense, size);
         generation++;
         StartCoroutine(stats());
     }
 
-    public void showStats(int generation, int agentsInGeneration, int agentsBorn, int agentsDied, float speed, float sense) {
+    public void showStats(int generation, int agentsInGeneration, int agentsBorn, int agentsDied, float speed, float sense, float size)
+    {
         Debug.Log("GENERATION: " + generation);
         Debug.Log("Agents alive: " + agentsInGeneration);
         Debug.Log("Agents born: " + agentsBorn);
         Debug.Log("Agents dead: " + agentsDied);
         Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
         Debug.Log("Sense avg: " + (sense / (agentsInGeneration * 1.0f)));
+        Debug.Log("Size avg: " + (size / (agentsInGeneration * 1.0f)));
     }
 }

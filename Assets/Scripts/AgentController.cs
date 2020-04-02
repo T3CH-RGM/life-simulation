@@ -19,6 +19,8 @@ public class AgentController : MonoBehaviour
     public int food = 0;
     private bool found_food = false;
     private Vector3 food_pos;
+    private bool found_threat = false;
+    private Vector3 threat_pos;
 
     public int initalMoves = 10;
     private int moves;
@@ -27,7 +29,8 @@ public class AgentController : MonoBehaviour
     private bool moveX;
     private bool moveZ;
 
-    AgentController() {
+    AgentController()
+    {
         initialEnergy = energy;
         initialSpeed = speed;
         initialSize = size;
@@ -43,7 +46,7 @@ public class AgentController : MonoBehaviour
 
         moveX = Random.Range(0, 2) == 1; // True = X | False = Z
         moveZ = Random.Range(0, 2) == 1; // True = X | False = Z
-        
+
         nextPlace = transform.position;
     }
 
@@ -65,14 +68,31 @@ public class AgentController : MonoBehaviour
                         closest = i;
                     }
                 }
+                else if (hitColliders[i].gameObject.tag == "Agent")
+                {
+                    if (Vector3.Distance(transform.position, hitColliders[i].transform.position) < closest_distance && hitColliders[i].gameObject.GetComponent<AgentController>().size > size)
+                    {
+                        closest = i;
+                    }
+                }
 
                 i++;
             }
 
             if (closest != -1)
             {
-                found_food = true;
-                food_pos = hitColliders[closest].transform.position;
+                found_threat = false;
+                if (hitColliders[closest].gameObject.tag == "Food")
+                {
+                    found_food = true;
+                    food_pos = hitColliders[closest].transform.position;
+                }
+                else if (hitColliders[closest].gameObject.tag == "Agent")
+                {
+                    found_food = false;
+                    found_threat = true;
+                    threat_pos = hitColliders[closest].transform.position;
+                }
             }
         }
 
@@ -81,17 +101,23 @@ public class AgentController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, food_pos, speed * 4 * Time.deltaTime);
         }
+        else if (found_threat)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(-threat_pos.x, threat_pos.y, -threat_pos.z), speed * 4 * Time.deltaTime);
+            found_threat = false;
+        }
         else
         {
-            if(moves == 0) {
+            if (moves == 0)
+            {
                 moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
                 if (moveOrientation) moveX = Random.Range(0, 2) == 1; // True = X | False = -X
                 else moveZ = Random.Range(0, 2) == 1; // True = Z | False = -Z
-                
+
                 float randomMoveX = moveX ? Random.Range(0.0f, 5.0f) : -Random.Range(0.0f, 5.0f);
                 float randomMoveZ = moveZ ? Random.Range(0.0f, 5.0f) : -Random.Range(0.0f, 5.0f);
                 Vector3 movement = new Vector3(randomMoveX, 0.0f, randomMoveZ);
-                
+
                 nextPlace = transform.position + movement;
                 moves = initalMoves;
             }
@@ -110,7 +136,8 @@ public class AgentController : MonoBehaviour
             Destroy(collision.gameObject);
             found_food = false;
 
-        } else if (collision.gameObject.tag == "Wall")
+        }
+        else if (collision.gameObject.tag == "Wall")
         {
             moves = 0;
         }
@@ -127,19 +154,27 @@ public class AgentController : MonoBehaviour
         newAgent.GetComponent<AgentController>().energy = initialEnergy;
         newAgent.GetComponent<AgentController>().children = 0;
         newAgent.GetComponent<AgentController>().food = 0;
-        newAgent.GetComponent<AgentController>().speed += Random.Range(-0.5F, 0.5F);
-        if(newAgent.GetComponent<AgentController>().speed < 1) {
+        newAgent.GetComponent<AgentController>().speed += Random.Range(-0.1F, 0.1F);
+        if (newAgent.GetComponent<AgentController>().speed < 1)
+        {
             newAgent.GetComponent<AgentController>().speed = 1;
         }
-        newAgent.GetComponent<AgentController>().sense += Random.Range(-0.5F, 0.5F);
-        if(newAgent.GetComponent<AgentController>().sense < 1) {
+        newAgent.GetComponent<AgentController>().sense += Random.Range(-0.1F, 0.1F);
+        if (newAgent.GetComponent<AgentController>().sense < 1)
+        {
             newAgent.GetComponent<AgentController>().sense = 1;
+        }
+        newAgent.GetComponent<AgentController>().size += Random.Range(-0.1F, 0.1F);
+        if (newAgent.GetComponent<AgentController>().size < 1)
+        {
+            newAgent.GetComponent<AgentController>().size = 1;
         }
 
         surviveGeneration();
     }
 
-    public void surviveGeneration() {
+    public void surviveGeneration()
+    {
         food = 0;
         energy = initialEnergy;
     }
@@ -149,7 +184,8 @@ public class AgentController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public float getMutationsValue() {
+    public float getMutationsValue()
+    {
         float senseValue = sense - 1;
         float mutationsValue = 0.5F * Mathf.Pow(speed, 2.0F) * Mathf.Pow(size, 3.0F) + senseValue;
         return mutationsValue;
