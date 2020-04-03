@@ -10,7 +10,6 @@ recovered = []
 dead = []
 f = open("coronavirusExpansion.txt", "r")
 f.readline()
-f.readline()
 normalData = f.readline().split(", ")
 for c in normalData:
     if c.isdigit():

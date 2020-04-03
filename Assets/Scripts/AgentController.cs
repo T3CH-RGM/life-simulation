@@ -6,9 +6,12 @@ public class AgentController : MonoBehaviour
 {
     private Rigidbody rb;
     public string id;
+    public int age;
+
     public int daysCounter;
     public int incubationDays;
     public int diseaseDays;
+    public bool isHospitalized;
 
     public int changeMoves;
     private int moves;
@@ -23,11 +26,17 @@ public class AgentController : MonoBehaviour
         changeMoves = 10;
         moves = 0;
         daysCounter = 0;
+
+        isHospitalized = false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        int ageRangeDesition = 70;
+        int ageRange = Random.Range(0, 100); // < ageRangeDesition = age < 40; >= ageRangeDesition = age >= 40 
+        age = ageRange < ageRangeDesition ? Random.Range(1, 40) : Random.Range(40, 100);
+
         var rand = new Random();
         rb = GetComponent<Rigidbody>();
 
@@ -62,7 +71,7 @@ public class AgentController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Agent")
         {
-            if (status == "normal" && collision.gameObject.GetComponent<Renderer>().material.color == Color.yellow)
+            if (status == "normal" && (collision.gameObject.GetComponent<Renderer>().material.color == Color.yellow || collision.gameObject.GetComponent<Renderer>().material.color == Color.red))
             {
                 gameObject.GetComponent<AgentController>().status = "incubating";
                 daysCounter = -1;
@@ -76,17 +85,23 @@ public class AgentController : MonoBehaviour
         }
     }
 
-    public void moveToHospital() {
+    public void moveToHospital()
+    {
+        isHospitalized = true;
         Vector3 agentPosition = transform.position;
         transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z + 30.0f);
     }
-    public void moveToPlayground() {
+    public void moveToPlayground()
+    {
+        isHospitalized = false;
         Vector3 agentPosition = transform.position;
         transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z - 30.0f);
     }
 
     public void die()
     {
-        Destroy(gameObject);
+        moveToHospital();
+        GetComponent<Renderer>().material.color = Color.black;
+        status = "dead";
     }
 }

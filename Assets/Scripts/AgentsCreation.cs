@@ -6,7 +6,11 @@ using System.IO;
 public class AgentsCreation : MonoBehaviour
 {
     public GameObject prefab;
+
     public int agentsAmount;
+    public int hospitalSize;
+    public int hospitalUse;
+
     public int generation;
     private List<int> normalList;
     private List<int> incubatingList;
@@ -24,6 +28,8 @@ public class AgentsCreation : MonoBehaviour
         infectedList = new List<int>();
         recoveredList = new List<int>();
         deadList = new List<int>();
+
+        hospitalUse = 0;
 
         finished = false;
 
@@ -88,7 +94,11 @@ public class AgentsCreation : MonoBehaviour
                 {
                     agent.GetComponent<Renderer>().material.color = Color.red;
                     agentController.status = "infected";
-                    agent.moveToHospital();
+                    if (hospitalSize > hospitalUse)
+                    {
+                        agent.moveToHospital();
+                        hospitalUse++;
+                    }
                     agentController.daysCounter = 0;
                 }
             }
@@ -97,13 +107,36 @@ public class AgentsCreation : MonoBehaviour
                 infected++;
                 diseaseDays += agentController.diseaseDays;
                 incubationDays += agentController.incubationDays;
-
-                if (agentController.daysCounter == agentController.diseaseDays)
+                if (agent.isHospitalized)
                 {
-                    agent.GetComponent<Renderer>().material.color = Color.blue;
-                    agentController.status = "recovered";
-                    agent.moveToPlayground();
-                    agentController.daysCounter = 0;
+                    if (agentController.daysCounter == agentController.diseaseDays)
+                    {
+                        agent.GetComponent<Renderer>().material.color = Color.blue;
+                        agentController.status = "recovered";
+                        agent.moveToPlayground();
+                        agentController.daysCounter = 0;
+                        hospitalUse--;
+                    }
+                }
+                else
+                {
+                    if (hospitalSize > hospitalUse)
+                    {
+                        agentController.moveToHospital();
+                        hospitalUse++;
+                    }
+                    else
+                    {
+                        if (agentController.daysCounter != 0)
+                        {
+                            float survivalRate = Mathf.Exp(-(agentController.daysCounter - 1) / 3.0f);
+                            if (Random.Range(0.0f, 1.0f) > survivalRate)
+                            {
+                                agentController.die();
+                                dead++;
+                            }
+                        }
+                    }
                 }
             }
             else if (agentController.status == "recovered") recovered++;
@@ -125,21 +158,21 @@ public class AgentsCreation : MonoBehaviour
         {
 
             Debug.Log("GENERATION: " + generation);
-            Debug.Log("Agents normal: " + normal);
-            Debug.Log("Agents incubating: " + incubating);
-            Debug.Log("Agents infected: " + infected);
-            Debug.Log("Agents recovered: " + recovered);
-            Debug.Log("Agents dead: " + dead);
+            // Debug.Log("Agents normal: " + normal);
+            // Debug.Log("Agents incubating: " + incubating);
+            // Debug.Log("Agents infected: " + infected);
+            // Debug.Log("Agents recovered: " + recovered);
+            // Debug.Log("Agents dead: " + dead);
             // Debug.Log("Incubation days avg: " + (incubationDays * 1.0f) / (infected + incubating + recovered + dead));
             // Debug.Log("Disease days avg: " + (diseaseDays * 1.0f) / (incubating + recovered + dead));
         }
-        if (!finished && recovered + normal == agentsAmount)
+        if (!finished && recovered + normal + dead == agentsAmount)
         {
             finished = true;
 
             string path = Application.dataPath + "/coronavirusExpansion.txt";
             if (!File.Exists(path))
-                File.WriteAllText(path, "Coronavirus data:\n\n");
+                File.WriteAllText(path, "Coronavirus data:\n");
 
             string content = "Nor: ";
             foreach (int data in normalList) content += data + ", ";
