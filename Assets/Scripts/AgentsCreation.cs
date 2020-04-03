@@ -1,24 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class AgentsCreation : MonoBehaviour
 {
     public GameObject prefab;
     public int agentsAmount;
     public int generation;
+    private List<int> normalList;
+    private List<int> incubatingList;
+    private List<int> infectedList;
+    private List<int> recoveredList;
+    private List<int> deadList;
+
+    private bool finished;
 
     // Start is called before the first frame update
     void Start()
     {
+        normalList = new List<int>();
+        incubatingList = new List<int>();
+        infectedList = new List<int>();
+        recoveredList = new List<int>();
+        deadList = new List<int>();
+
+        finished = false;
+
         var rand = new Random();
+        int infected = Random.Range(0, agentsAmount);
 
         for (int i = 0; i < agentsAmount; i++)
         {
             float xPos = Random.Range(-14.5f, 14.5f);
             float yPos = Random.Range(-14.5f, 14.5f);
-            GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
+            GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.29F, yPos), Quaternion.identity);
             newAgent.GetComponent<AgentController>().id = i.ToString();
+            // Status --> normal=green, incubating=yellow, infected, recovered=blue, dead=black
+            if (i == infected)
+            {
+                newAgent.GetComponent<AgentController>().status = "incubating";
+                newAgent.GetComponent<AgentController>().daysCounter = 0;
+                newAgent.GetComponent<AgentController>().incubationDays = Random.Range(10, 15);
+                newAgent.GetComponent<AgentController>().diseaseDays = Random.Range(14, 21);
+                newAgent.GetComponent<Renderer>().material.color = Color.yellow;
+            }
+            else
+            {
+                newAgent.GetComponent<AgentController>().status = "normal";
+                newAgent.GetComponent<Renderer>().material.color = Color.green;
+            }
         }
 
         StartCoroutine(stats());
@@ -31,50 +62,106 @@ public class AgentsCreation : MonoBehaviour
 
     IEnumerator stats()
     {
-
-        yield return new WaitForSeconds(2.0f);
-        float speed = 0;
-        float sense = 0;
-        float size = 0;
-        int agentsDied = 0;
-        int agentsBorn = 0;
+        yield return new WaitForSeconds(1.0f);
         int agentsInGeneration = FindObjectsOfType<AgentController>().Length;
+        int normal = 0;
+        int incubating = 0;
+        int infected = 0;
+        int recovered = 0;
+        int dead = 0;
+        int incubationDays = 0;
+        int diseaseDays = 0;
         foreach (AgentController agent in FindObjectsOfType<AgentController>())
         {
             AgentController agentController = agent.GetComponent<AgentController>();
-            speed += agentController.speed;
-            sense += agentController.sense;
-            size += agentController.size;
-            float mutationsValue = agentController.getMutationsValue();
-            if (agentController.food > mutationsValue * 2)
+            agentController.daysCounter++;
+            if (agentController.status == "normal") normal++;
+            else if (agentController.status == "incubating")
             {
-                agentController.reproduce();
-                agentController.surviveGeneration();
-                agentsBorn++;
+                incubating++;
+                incubationDays += agentController.incubationDays;
+                if (agent.GetComponent<Renderer>().material.color == Color.green)
+                {
+                    agent.GetComponent<Renderer>().material.color = Color.yellow;
+                }
+                else if (agentController.daysCounter == agentController.incubationDays)
+                {
+                    agent.GetComponent<Renderer>().material.color = Color.red;
+                    agentController.status = "infected";
+                    agent.moveToHospital();
+                    agentController.daysCounter = 0;
+                }
             }
-            else if (agentController.food >= mutationsValue)
+            else if (agentController.status == "infected")
             {
-                agentController.surviveGeneration();
+                infected++;
+                diseaseDays += agentController.diseaseDays;
+                incubationDays += agentController.incubationDays;
+
+                if (agentController.daysCounter == agentController.diseaseDays)
+                {
+                    agent.GetComponent<Renderer>().material.color = Color.blue;
+                    agentController.status = "recovered";
+                    agent.moveToPlayground();
+                    agentController.daysCounter = 0;
+                }
             }
-            else
-            {
-                agentController.die();
-                agentsDied++;
-            }
+            else if (agentController.status == "recovered") recovered++;
+            else if (agentController.status == "dead") dead++;
         }
-        showStats(generation, agentsInGeneration, agentsBorn, agentsDied, speed, sense, size);
+        showStats(generation, agentsInGeneration, normal, incubating, infected, recovered, dead, incubationDays, diseaseDays);
         generation++;
         StartCoroutine(stats());
     }
 
-    public void showStats(int generation, int agentsInGeneration, int agentsBorn, int agentsDied, float speed, float sense, float size)
+    public void showStats(int generation, int agentsInGeneration, int normal, int incubating, int infected, int recovered, int dead, int incubationDays, int diseaseDays)
     {
-        Debug.Log("GENERATION: " + generation);
-        Debug.Log("Agents alive: " + agentsInGeneration);
-        Debug.Log("Agents born: " + agentsBorn);
-        Debug.Log("Agents dead: " + agentsDied);
-        Debug.Log("Speed avg: " + (speed / (agentsInGeneration * 1.0f)));
-        Debug.Log("Sense avg: " + (sense / (agentsInGeneration * 1.0f)));
-        Debug.Log("Size avg: " + (size / (agentsInGeneration * 1.0f)));
+        normalList.Add(normal);
+        incubatingList.Add(incubating);
+        infectedList.Add(infected);
+        recoveredList.Add(recovered);
+        deadList.Add(dead);
+        if (recovered + normal < agentsAmount)
+        {
+
+            Debug.Log("GENERATION: " + generation);
+            Debug.Log("Agents normal: " + normal);
+            Debug.Log("Agents incubating: " + incubating);
+            Debug.Log("Agents infected: " + infected);
+            Debug.Log("Agents recovered: " + recovered);
+            Debug.Log("Agents dead: " + dead);
+            // Debug.Log("Incubation days avg: " + (incubationDays * 1.0f) / (infected + incubating + recovered + dead));
+            // Debug.Log("Disease days avg: " + (diseaseDays * 1.0f) / (incubating + recovered + dead));
+        }
+        if (!finished && recovered + normal == agentsAmount)
+        {
+            finished = true;
+
+            string path = Application.dataPath + "/coronavirusExpansion.txt";
+            if (!File.Exists(path))
+                File.WriteAllText(path, "Coronavirus data:\n\n");
+
+            string content = "Nor: ";
+            foreach (int data in normalList) content += data + ", ";
+            content += "\n";
+            content += "Inc: ";
+            foreach (int data in incubatingList) content += data + ", ";
+            content += "\n";
+            content += "Inf: ";
+            foreach (int data in infectedList) content += data + ", ";
+            content += "\n";
+            content += "Rec: ";
+            foreach (int data in recoveredList) content += data + ", ";
+            content += "\n";
+            content += "Die: ";
+            foreach (int data in deadList) content += data + ", ";
+            content += "\n";
+            content += "Generations: " + generation + "\n";
+            content += "-----------------------------\n\n";
+
+            File.AppendAllText(path, content);
+
+            Debug.Log("File updated");
+        }
     }
 }

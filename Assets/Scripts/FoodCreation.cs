@@ -17,11 +17,6 @@ public class FoodCreation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /* int actualAgents = FindObjectsOfType<AgentController>().Length;
-        if (GameObject.FindGameObjectsWithTag("Food").Length < foodAmount * ((initialAgents * 1.0F) / actualAgents))
-        {
-            addRandomFood(foodAmount - GameObject.FindGameObjectsWithTag("Food").Length);
-        } */
     }
 
     IEnumerator refillFood()
