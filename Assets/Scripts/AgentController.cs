@@ -33,9 +33,9 @@ public class AgentController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int ageRangeDesition = 70;
-        int ageRange = Random.Range(0, 100); // < ageRangeDesition = age < 40; >= ageRangeDesition = age >= 40 
-        age = ageRange < ageRangeDesition ? Random.Range(1, 40) : Random.Range(40, 100);
+        int ageRangeDecision = 70;
+        int ageRange = Random.Range(0, 100); // < ageRangeDecision = age < 40; >= ageRangeDecision = age >= 40 
+        age = ageRange < ageRangeDecision ? Random.Range(1, 40) : Random.Range(40, 100);
 
         var rand = new Random();
         rb = GetComponent<Rigidbody>();
@@ -48,6 +48,7 @@ public class AgentController : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (moves == 0)
         {
             moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
@@ -62,7 +63,11 @@ public class AgentController : MonoBehaviour
             moves = changeMoves;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, nextPlace, 4 * Time.deltaTime);
+        float speed = 4;
+        if (FindObjectsOfType<AgentsCreation>()[0].inQuarantine) speed /= 2.0f;
+        else speed = 4;
+
+        transform.position = Vector3.MoveTowards(transform.position, nextPlace, speed * Time.deltaTime);
 
         moves--;
     }
@@ -73,7 +78,7 @@ public class AgentController : MonoBehaviour
         {
             if (status == "normal" && (collision.gameObject.GetComponent<Renderer>().material.color == Color.yellow || collision.gameObject.GetComponent<Renderer>().material.color == Color.red))
             {
-                gameObject.GetComponent<AgentController>().status = "incubating";
+                status = "incubating";
                 daysCounter = -1;
                 incubationDays = Random.Range(10, 15);
                 diseaseDays = Random.Range(14, 21);
@@ -83,6 +88,26 @@ public class AgentController : MonoBehaviour
         {
             moves = 0;
         }
+    }
+
+    public void incubate()
+    {
+        GetComponent<Renderer>().material.color = Color.yellow;
+    }
+
+    public void infect()
+    {
+        GetComponent<Renderer>().material.color = Color.red;
+        status = "infected";
+        daysCounter = 0;
+    }
+
+    public void recover()
+    {
+        GetComponent<Renderer>().material.color = Color.blue;
+        status = "recovered";
+        moveToPlayground();
+        daysCounter = 0;
     }
 
     public void moveToHospital()
@@ -100,7 +125,7 @@ public class AgentController : MonoBehaviour
 
     public void die()
     {
-        moveToHospital();
+        if (!isHospitalized) moveToHospital();
         GetComponent<Renderer>().material.color = Color.black;
         status = "dead";
     }

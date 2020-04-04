@@ -106,9 +106,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+  age: 0
   daysCounter: 0
   incubationDays: 0
   diseaseDays: 0
+  isHospitalized: 0
   changeMoves: 10
   status: 
 --- !u!54 &54108080404415120
