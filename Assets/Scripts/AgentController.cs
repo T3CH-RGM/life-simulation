@@ -49,34 +49,41 @@ public class AgentController : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (moves == 0)
+        if (GetComponent<Renderer>().material.color != Color.red &&
+            GetComponent<Renderer>().material.color != Color.black &&
+            GetComponent<Renderer>().material.color != Color.blue)
         {
-            moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
-            if (moveOrientation) moveX = Random.Range(0, 2) == 1; // True = X | False = -X
-            else moveZ = Random.Range(0, 2) == 1; // True = Z | False = -Z
+            if (moves == 0)
+            {
+                moveOrientation = Random.Range(0, 2) == 1; // True = X | False = Z
+                if (moveOrientation) moveX = Random.Range(0, 2) == 1; // True = X | False = -X
+                else moveZ = Random.Range(0, 2) == 1; // True = Z | False = -Z
 
-            float randomMoveX = moveX ? Random.Range(0.0f, 5.0f) : -Random.Range(0.0f, 5.0f);
-            float randomMoveZ = moveZ ? Random.Range(0.0f, 5.0f) : -Random.Range(0.0f, 5.0f);
-            Vector3 movement = new Vector3(randomMoveX, 0.0f, randomMoveZ);
+                float randomMoveX = moveX ? Random.Range(0.0f, 5.0f) : -Random.Range(0.0f, 5.0f);
+                float randomMoveZ = moveZ ? Random.Range(0.0f, 5.0f) : -Random.Range(0.0f, 5.0f);
+                Vector3 movement = new Vector3(randomMoveX, 0.0f, randomMoveZ);
 
-            nextPlace = transform.position + movement;
-            moves = changeMoves;
+                nextPlace = transform.position + movement;
+                moves = changeMoves;
+            }
+
+            float speed = 4;
+            if (FindObjectsOfType<AgentsCreation>()[0].inQuarantine) speed /= 2.0f;
+            else speed = 4;
+
+            transform.position = Vector3.MoveTowards(transform.position, nextPlace, speed * Time.deltaTime);
+
+            moves--;
+        } else {
+            transform.position = Vector3.MoveTowards(transform.position, transform.position, Time.deltaTime);
         }
-
-        float speed = 4;
-        if (FindObjectsOfType<AgentsCreation>()[0].inQuarantine) speed /= 2.0f;
-        else speed = 4;
-
-        transform.position = Vector3.MoveTowards(transform.position, nextPlace, speed * Time.deltaTime);
-
-        moves--;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Agent")
         {
-            if (status == "normal" && (collision.gameObject.GetComponent<Renderer>().material.color == Color.yellow || collision.gameObject.GetComponent<Renderer>().material.color == Color.red))
+            if (status == "normal" && collision.gameObject.GetComponent<Renderer>().material.color == Color.yellow)
             {
                 status = "incubating";
                 daysCounter = -1;
@@ -114,13 +121,13 @@ public class AgentController : MonoBehaviour
     {
         isHospitalized = true;
         Vector3 agentPosition = transform.position;
-        transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z + 30.0f);
+        transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z + 120.0f);
     }
     public void moveToPlayground()
     {
         isHospitalized = false;
         Vector3 agentPosition = transform.position;
-        transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z - 30.0f);
+        transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z - 120.0f);
     }
 
     public void die()

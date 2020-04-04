@@ -8,8 +8,8 @@ public class AgentsCreation : MonoBehaviour
     public GameObject prefab;
 
     public int agentsAmount;
-    public int hospitalSize;
-    public int hospitalUse;
+    public float hospitalSize;
+    public float hospitalUse;
 
     public int generation;
     public int cases;
@@ -21,6 +21,10 @@ public class AgentsCreation : MonoBehaviour
     private List<int> infectedList;
     private List<int> recoveredList;
     private List<int> deadList;
+
+    private List<int> deadAges;
+    private int deadHospital;
+    private int deadPlayground;
 
     public int quarantinePercent;
     public bool inQuarantine;
@@ -42,6 +46,8 @@ public class AgentsCreation : MonoBehaviour
         recoveredList = new List<int>();
         deadList = new List<int>();
 
+        deadAges = new List<int>();
+
         cases = 0;
         hospitalUse = 0;
 
@@ -52,9 +58,9 @@ public class AgentsCreation : MonoBehaviour
 
         for (int i = 0; i < agentsAmount; i++)
         {
-            float xPos = Random.Range(-14.5f, 14.5f);
-            float yPos = Random.Range(-14.5f, 14.5f);
-            GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.29F, yPos), Quaternion.identity);
+            float xPos = Random.Range(-59.5f, 59.5f);
+            float yPos = Random.Range(-59.5f, 59.5f);
+            GameObject newAgent = Instantiate(prefab, new Vector3(xPos, 0.5F, yPos), Quaternion.identity);
             newAgent.GetComponent<AgentController>().id = i.ToString();
             // Status --> normal=green, incubating=yellow, infected, recovered=blue, dead=black
             if (i == infected)
@@ -110,11 +116,15 @@ public class AgentsCreation : MonoBehaviour
                     infected++;
                     activeCases++;
                     cases++;
-                    if (agentsAmount * hospitalSize / 100 > hospitalUse)
+                    if (hospitalUse < 99.9)
                     {
                         agent.moveToHospital();
-                        hospitalUse++;
+                        hospitalUse += 1.0f / (agentsAmount * hospitalSize / 100) * 100;
                     }
+                }
+                else
+                {
+                    incubating++;
                 }
             }
             else if (agentController.status == "infected")
@@ -123,18 +133,20 @@ public class AgentsCreation : MonoBehaviour
                 {
                     if (agentController.daysCounter == agentController.diseaseDays)
                     {
-                        float survivalRate = 1 / ((agentController.age + 56) * (agentController.age + 35) * (agentController.age + 10) * 0.000001f + 0.905f); // adding age variation to surviving chances
+                        double survivalRate = 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f)); // adding age variation to surviving chances
                         if (Random.Range(0.0f, 1.0f) > survivalRate)
                         {
                             agentController.die();
                             dead++;
+                            deadAges.Add(agentController.age);
                         }
                         else
                         {
                             agent.recover();
                             recovered++;
                         }
-                        hospitalUse--;
+                        hospitalUse -= 1.0f / (agentsAmount * hospitalSize / 100) * 100;
+                        if (hospitalUse < 0) hospitalUse = 0;
                         activeCases--;
                     }
                     else
@@ -144,22 +156,23 @@ public class AgentsCreation : MonoBehaviour
                 }
                 else
                 {
-                    if (hospitalSize > hospitalUse)
+                    if (hospitalUse < 100)
                     {
                         infected++;
                         agentController.moveToHospital();
-                        hospitalUse++;
+                        hospitalUse += 1.0f / (agentsAmount * hospitalSize / 100) * 100;
                     }
                     else
                     {
                         if (agentController.daysCounter != 0)
                         {
-                            float survivalRate = Mathf.Exp(-(agentController.daysCounter - 1) / 3.0f);
-                            survivalRate /= (agentController.age + 56) * (agentController.age + 35) * (agentController.age + 10) * 0.000001f + 0.905f; // adding age variation to surviving chances
+                            double survivalRate = Mathf.Exp(-(agentController.daysCounter - 1) / 3.0f);
+                            survivalRate /= 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f)); // adding age variation to surviving chances
                             if (Random.Range(0.0f, 1.0f) > survivalRate)
                             {
                                 agentController.die();
                                 dead++;
+                                deadAges.Add(agentController.age);
                                 activeCases--;
                             }
                             else
@@ -212,21 +225,15 @@ public class AgentsCreation : MonoBehaviour
         deadList.Add(dead);
         if (recovered + normal + dead < agentsAmount)
         {
-
             Debug.Log("GENERATION: " + generation);
-            // Debug.Log("Agents normal: " + normal);
-            // Debug.Log("Agents incubating: " + incubating);
-            // Debug.Log("Agents infected: " + infected);
-            // Debug.Log("Agents recovered: " + recovered);
-            // Debug.Log("Agents dead: " + dead);
         }
         if (!finished && recovered + normal + dead == agentsAmount)
         {
             finished = true;
 
             string path = Application.dataPath + "/coronavirusExpansion.txt";
-            if (!File.Exists(path))
-                File.WriteAllText(path, "Coronavirus data:\n");
+
+            File.WriteAllText(path, "Coronavirus data:\n");
 
             string content = "Cas: ";
             foreach (int data in casesList) content += data + ", ";
@@ -248,6 +255,9 @@ public class AgentsCreation : MonoBehaviour
             content += "\n";
             content += "Die: ";
             foreach (int data in deadList) content += data + ", ";
+            content += "\n";
+            content += "Dead ages: ";
+            foreach (int data in deadAges) content += data + ", ";
             content += "\n";
             content += "Generations: " + generation + "\n";
             content += "-----------------------------\n\n";
