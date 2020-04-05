@@ -10,10 +10,15 @@ public class AgentsCreation : MonoBehaviour
     public int agentsAmount;
     public float hospitalSize;
     public float hospitalUse;
+    public float ventilatorsAmount;
+    public float ventilatorsUse;
+    public float testsPerDay;
 
     public int generation;
     public int cases;
     public int activeCases;
+    public int recovered;
+    public int dead;
     private List<int> casesList;
     private List<int> activeCasesList;
     private List<int> normalList;
@@ -22,13 +27,16 @@ public class AgentsCreation : MonoBehaviour
     private List<int> recoveredList;
     private List<int> deadList;
 
-    private List<int> deadAges;
+    private List<AgentController> deadAgents;
+    private List<AgentController> criticalList;
+
     private int deadHospital;
     private int deadPlayground;
 
     public int quarantinePercent;
     public bool inQuarantine;
     public bool hasBeenQuarantine;
+    public int quarantineCounter;
 
     private bool finished;
 
@@ -46,7 +54,8 @@ public class AgentsCreation : MonoBehaviour
         recoveredList = new List<int>();
         deadList = new List<int>();
 
-        deadAges = new List<int>();
+        deadAgents = new List<AgentController>();
+        criticalList = new List<AgentController>();
 
         cases = 0;
         hospitalUse = 0;
@@ -96,19 +105,22 @@ public class AgentsCreation : MonoBehaviour
         int normal = 0;
         int incubating = 0;
         int infected = 0;
-        int recovered = 0;
-        int dead = 0;
         foreach (AgentController agent in FindObjectsOfType<AgentController>())
         {
             AgentController agentController = agent.GetComponent<AgentController>();
             agentController.daysCounter++;
-            if (agentController.status == "normal") normal++;
+            if (agentController.status == "normal")
+            {
+                normal++;
+                if (!inQuarantine && Random.Range(0, agentsAmount) < agentsAmount * 0.01) agent.travel();
+            }
             else if (agentController.status == "incubating")
             {
                 if (agent.GetComponent<Renderer>().material.color == Color.green)
                 {
                     incubating++;
                     agent.incubate();
+                    if (!inQuarantine && Random.Range(0, agentsAmount) < agentsAmount * 0.01) agent.travel();
                 }
                 else if (agentController.daysCounter == agentController.incubationDays)
                 {
@@ -121,9 +133,12 @@ public class AgentsCreation : MonoBehaviour
                         agent.moveToHospital();
                         hospitalUse += 1.0f / (agentsAmount * hospitalSize / 100) * 100;
                     }
+
+                    if(agent.isCritical) criticalList.Add(agent);
                 }
                 else
                 {
+                    if (!inQuarantine && Random.Range(0, agentsAmount) < agentsAmount * 0.01) agent.travel();
                     incubating++;
                 }
             }
@@ -133,12 +148,13 @@ public class AgentsCreation : MonoBehaviour
                 {
                     if (agentController.daysCounter == agentController.diseaseDays)
                     {
-                        double survivalRate = 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f)); // adding age variation to surviving chances
+                        float survivalRate = 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f)); // adding age variation to surviving chances
+                        survivalRate = agent.isCritical ? Mathf.Pow(survivalRate, 3f) : survivalRate; // adding isCritical variation to surviving chances
                         if (Random.Range(0.0f, 1.0f) > survivalRate)
                         {
                             agentController.die();
                             dead++;
-                            deadAges.Add(agentController.age);
+                            deadAgents.Add(agentController);
                         }
                         else
                         {
@@ -168,11 +184,12 @@ public class AgentsCreation : MonoBehaviour
                         {
                             double survivalRate = Mathf.Exp(-(agentController.daysCounter - 1) / 3.0f);
                             survivalRate /= 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f)); // adding age variation to surviving chances
+                            survivalRate *= (agent.isCritical ? survivalRate : 1);
                             if (Random.Range(0.0f, 1.0f) > survivalRate)
                             {
                                 agentController.die();
                                 dead++;
-                                deadAges.Add(agentController.age);
+                                deadAgents.Add(agentController);
                                 activeCases--;
                             }
                             else
@@ -189,23 +206,25 @@ public class AgentsCreation : MonoBehaviour
             }
             else if (agentController.status == "recovered")
             {
-                recovered++;
+                if (!inQuarantine && Random.Range(0, agentsAmount) < agentsAmount * 0.01) agent.travel();
             }
-            else if (agentController.status == "dead")
-            {
-                dead++;
-            }
+            // else if (agentController.status == "dead") dead++;
         }
         if (infected >= agentsAmount * quarantinePercent / 100.0f && !inQuarantine && !hasBeenQuarantine)
         {
             inQuarantine = true;
             Debug.Log("Quarantine declared!!! Stay at home as much as possible.");
+            quarantineCounter = 0;
         }
-        else if (inQuarantine && infected <= agentsAmount * (quarantinePercent * 0.3f) / 100.0f)
+        else if (inQuarantine)
         {
-            hasBeenQuarantine = true;
-            inQuarantine = false;
-            Debug.Log("No more quarantine. Live normally.");
+            quarantineCounter++;
+            if (infected <= agentsAmount * (quarantinePercent * 0.3f) / 100.0f || quarantineCounter == 28)
+            {
+                hasBeenQuarantine = true;
+                inQuarantine = false;
+                Debug.Log("No more quarantine. Live normally.");
+            }
         }
         activeCases = infected;
         showStats(generation, agentsInGeneration, normal, incubating, infected, recovered, dead, cases, activeCases);
@@ -256,15 +275,28 @@ public class AgentsCreation : MonoBehaviour
             content += "Die: ";
             foreach (int data in deadList) content += data + ", ";
             content += "\n";
-            content += "Dead ages: ";
-            foreach (int data in deadAges) content += data + ", ";
+            content += "Dead agents: \n";
+            foreach (AgentController data in deadAgents) {
+                content += "Age: " + data.age + " ";
+                content += "Is hospitalized: " + (data.isHospitalized ? "Yes" : "No") + " ";
+                content += "Is critical: " + (data.isCritical ? "Yes" : "No");
+                content += "\n";
+            }
+            content += "Critical agents: \n";
+            foreach (AgentController data in criticalList) {
+                content += "Age: " + data.age + " ";
+                content += "Status: " + sata.status;
+                content += "Is hospitalized: " + (data.isHospitalized ? "Yes" : "No") + " ";
+                content += "Is critical: " + (data.isCritical ? "Yes" : "No");
+                content += "\n";
+            }
             content += "\n";
             content += "Generations: " + generation + "\n";
             content += "-----------------------------\n\n";
 
             File.AppendAllText(path, content);
 
-            Debug.Log("File updated");
+            Debug.Log("Coronavirus is over");
         }
     }
 }

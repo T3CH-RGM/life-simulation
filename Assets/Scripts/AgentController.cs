@@ -19,7 +19,10 @@ public class AgentController : MonoBehaviour
     private bool moveOrientation;
     private bool moveX;
     private bool moveZ;
+
     public string status;
+    public int side;
+    public bool isCritical;
 
     AgentController()
     {
@@ -44,14 +47,16 @@ public class AgentController : MonoBehaviour
         moveZ = Random.Range(0, 2) == 1; // True = X | False = Z
 
         nextPlace = transform.position;
+
+        if (transform.position.z > 0) side = 0;
+        else side = 1;
     }
 
     void FixedUpdate()
     {
 
         if (GetComponent<Renderer>().material.color != Color.red &&
-            GetComponent<Renderer>().material.color != Color.black &&
-            GetComponent<Renderer>().material.color != Color.blue)
+            GetComponent<Renderer>().material.color != Color.black)
         {
             if (moves == 0)
             {
@@ -69,13 +74,11 @@ public class AgentController : MonoBehaviour
 
             float speed = 4;
             if (FindObjectsOfType<AgentsCreation>()[0].inQuarantine) speed /= 2.0f;
-            else speed = 4;
+            else if (FindObjectsOfType<AgentsCreation>()[0].hasBeenQuarantine) speed /= 1.3f;
 
             transform.position = Vector3.MoveTowards(transform.position, nextPlace, speed * Time.deltaTime);
 
             moves--;
-        } else {
-            transform.position = Vector3.MoveTowards(transform.position, transform.position, Time.deltaTime);
         }
     }
 
@@ -107,6 +110,9 @@ public class AgentController : MonoBehaviour
         GetComponent<Renderer>().material.color = Color.red;
         status = "infected";
         daysCounter = 0;
+        float criticalRate = 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((age / 78.44983f), 12.59674f));
+        float random = Random.Range(0.0f, 1.0f);
+        if (criticalRate < random) isCritical = true;
     }
 
     public void recover()
@@ -128,6 +134,15 @@ public class AgentController : MonoBehaviour
         isHospitalized = false;
         Vector3 agentPosition = transform.position;
         transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z - 120.0f);
+    }
+
+    public void travel()
+    {
+        Vector3 agentPosition = transform.position;
+        if (transform.position.x > 0)
+            transform.position = new Vector3(agentPosition.x - 60, agentPosition.y, agentPosition.z);
+        else
+            transform.position = new Vector3(agentPosition.x + 60, agentPosition.y, agentPosition.z);
     }
 
     public void die()
