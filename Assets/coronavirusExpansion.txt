@@ -1,76 +1,125 @@
 Coronavirus data:
-Cas: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 5, 6, 6, 8, 9, 9, 12, 14, 18, 21, 23, 29, 30, 36, 41, 46, 48, 50, 53, 57, 66, 82, 84, 96, 100, 109, 117, 125, 131, 140, 146, 154, 161, 169, 173, 178, 181, 184, 191, 195, 200, 207, 210, 214, 218, 220, 223, 225, 227, 227, 231, 234, 236, 238, 241, 244, 247, 249, 251, 255, 257, 257, 262, 267, 269, 271, 272, 275, 278, 281, 283, 283, 286, 290, 294, 296, 298, 299, 299, 303, 305, 306, 310, 313, 316, 317, 318, 322, 323, 323, 324, 324, 325, 326, 327, 327, 327, 327, 329, 329, 329, 330, 330, 333, 334, 334, 334, 334, 335, 335, 335, 337, 337, 337, 337, 337, 337, 337, 337, 338, 338, 338, 338, 338, 338, 338, 338, 339, 339, 340, 340, 340, 340, 340, 340, 340, 340, 340, 341, 342, 342, 342, 342, 342, 342, 343, 344, 345, 345, 345, 345, 345, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 346, 
-Act: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 5, 5, 7, 8, 7, 10, 12, 16, 19, 21, 27, 27, 32, 37, 41, 43, 45, 47, 49, 56, 72, 70, 78, 81, 87, 91, 93, 93, 95, 96, 94, 95, 94, 91, 87, 80, 77, 78, 77, 72, 71, 67, 68, 68, 64, 65, 65, 66, 62, 64, 63, 61, 59, 57, 53, 48, 46, 44, 43, 40, 37, 39, 44, 45, 44, 44, 46, 46, 43, 43, 43, 45, 47, 46, 47, 46, 43, 42, 38, 39, 37, 38, 39, 39, 38, 38, 40, 38, 35, 34, 32, 32, 30, 28, 26, 25, 22, 23, 22, 19, 18, 14, 14, 14, 14, 11, 11, 10, 10, 8, 10, 10, 10, 10, 10, 9, 7, 7, 7, 6, 4, 4, 3, 3, 3, 2, 3, 3, 4, 4, 3, 3, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 3, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 5, 5, 5, 5, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 0, 
-Nor: 499, 499, 499, 499, 499, 499, 499, 498, 498, 498, 498, 498, 498, 498, 498, 498, 497, 496, 496, 494, 494, 494, 493, 492, 492, 492, 490, 484, 483, 481, 479, 475, 469, 466, 463, 459, 456, 450, 445, 441, 437, 428, 414, 401, 395, 389, 381, 380, 370, 359, 353, 342, 338, 332, 326, 321, 320, 314, 310, 305, 302, 296, 292, 288, 286, 281, 280, 275, 274, 270, 268, 267, 264, 263, 262, 259, 256, 253, 249, 246, 245, 243, 240, 235, 231, 228, 227, 223, 222, 219, 217, 215, 209, 207, 206, 203, 203, 202, 201, 197, 195, 192, 187, 186, 182, 182, 182, 182, 178, 177, 176, 176, 175, 175, 175, 173, 172, 172, 171, 171, 170, 169, 168, 167, 167, 166, 166, 166, 166, 165, 164, 164, 164, 163, 163, 163, 163, 163, 163, 162, 162, 162, 162, 162, 162, 162, 162, 160, 160, 160, 160, 160, 160, 160, 160, 160, 160, 159, 159, 159, 158, 158, 158, 157, 157, 157, 156, 156, 156, 155, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 154, 
-Inc: 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 3, 3, 5, 4, 4, 5, 6, 6, 6, 8, 13, 13, 15, 17, 21, 26, 28, 31, 33, 35, 41, 43, 45, 45, 51, 63, 70, 75, 75, 78, 74, 82, 91, 94, 101, 96, 86, 90, 83, 80, 77, 73, 70, 67, 64, 62, 58, 53, 50, 47, 47, 45, 46, 41, 38, 36, 30, 28, 27, 26, 27, 28, 29, 28, 30, 29, 31, 33, 34, 32, 33, 31, 32, 32, 30, 34, 36, 32, 30, 28, 27, 27, 28, 27, 27, 30, 31, 32, 28, 24, 22, 24, 24, 25, 21, 20, 19, 15, 14, 12, 11, 11, 7, 7, 8, 8, 9, 8, 8, 7, 7, 7, 8, 7, 7, 7, 7, 7, 4, 3, 3, 3, 4, 3, 3, 3, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 3, 3, 2, 3, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 4, 4, 4, 4, 4, 4, 3, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-Inf: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 5, 5, 7, 8, 7, 10, 12, 16, 19, 21, 27, 27, 32, 37, 41, 43, 45, 47, 49, 56, 72, 70, 78, 81, 87, 91, 93, 93, 95, 96, 94, 95, 94, 91, 87, 80, 77, 78, 77, 72, 71, 67, 68, 68, 64, 65, 65, 66, 62, 64, 63, 61, 59, 57, 53, 48, 46, 44, 43, 40, 37, 39, 44, 45, 44, 44, 46, 46, 43, 43, 43, 45, 47, 46, 47, 46, 43, 42, 38, 39, 37, 38, 39, 39, 38, 38, 40, 38, 35, 34, 32, 32, 30, 28, 26, 25, 22, 23, 22, 19, 18, 14, 14, 14, 14, 11, 11, 10, 10, 8, 10, 10, 10, 10, 10, 9, 7, 7, 7, 6, 4, 4, 3, 3, 3, 2, 3, 3, 4, 4, 3, 3, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 3, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 5, 5, 5, 5, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 0, 
-Rec: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4, 4, 5, 5, 5, 6, 8, 9, 9, 13, 17, 18, 20, 23, 26, 28, 30, 32, 35, 37, 42, 45, 49, 54, 59, 64, 68, 78, 86, 93, 96, 100, 106, 108, 110, 111, 115, 117, 121, 125, 129, 134, 141, 149, 153, 157, 162, 167, 170, 173, 173, 174, 177, 178, 179, 182, 188, 190, 190, 191, 193, 198, 199, 202, 206, 207, 215, 216, 219, 222, 224, 227, 229, 230, 232, 235, 238, 240, 242, 243, 246, 249, 251, 251, 254, 255, 256, 258, 260, 264, 267, 268, 268, 271, 271, 273, 273, 275, 275, 275, 275, 275, 275, 276, 278, 278, 279, 280, 282, 282, 283, 283, 283, 284, 284, 284, 284, 284, 285, 285, 286, 286, 286, 286, 286, 286, 286, 286, 286, 286, 287, 287, 287, 287, 288, 288, 288, 288, 288, 288, 288, 289, 289, 289, 289, 289, 290, 291, 291, 292, 292, 292, 293, 293, 293, 294, 
-Die: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 3, 6, 10, 15, 18, 25, 29, 33, 37, 42, 47, 48, 49, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 51, 51, 51, 51, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 
+Cas: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 4, 5, 6, 8, 9, 12, 16, 24, 31, 37, 41, 48, 53, 65, 74, 88, 97, 108, 115, 127, 135, 147, 154, 157, 167, 176, 185, 189, 196, 204, 209, 214, 217, 224, 231, 237, 247, 249, 254, 255, 259, 265, 270, 273, 277, 280, 282, 283, 285, 292, 294, 298, 304, 313, 322, 326, 332, 339, 343, 349, 355, 359, 367, 373, 378, 386, 391, 395, 398, 400, 401, 405, 406, 407, 409, 409, 410, 410, 411, 414, 416, 416, 418, 419, 419, 419, 421, 421, 422, 422, 423, 424, 424, 424, 425, 425, 426, 428, 428, 428, 429, 429, 429, 429, 429, 430, 430, 430, 430, 430, 430, 430, 430, 430, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 431, 
+Act: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 4, 5, 6, 8, 9, 12, 16, 24, 31, 37, 41, 46, 51, 63, 71, 85, 93, 103, 102, 108, 108, 109, 110, 102, 97, 97, 97, 89, 87, 91, 88, 86, 79, 80, 86, 86, 91, 90, 85, 83, 83, 80, 79, 73, 77, 72, 73, 68, 63, 64, 59, 58, 59, 67, 72, 71, 73, 79, 80, 80, 82, 82, 85, 86, 85, 89, 89, 82, 78, 79, 77, 77, 71, 68, 65, 61, 58, 51, 49, 48, 48, 46, 44, 39, 30, 27, 27, 24, 24, 19, 17, 16, 14, 13, 13, 13, 13, 12, 9, 9, 10, 10, 10, 8, 8, 8, 7, 7, 6, 6, 4, 4, 2, 2, 3, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+Nor: 499, 499, 498, 498, 497, 497, 497, 495, 494, 492, 489, 486, 481, 477, 470, 463, 456, 451, 447, 442, 428, 415, 403, 394, 383, 370, 361, 353, 349, 339, 336, 323, 318, 310, 303, 297, 291, 285, 281, 272, 270, 264, 258, 253, 245, 244, 237, 234, 229, 224, 223, 219, 218, 217, 210, 210, 205, 201, 196, 192, 179, 172, 168, 160, 154, 152, 147, 141, 134, 129, 123, 117, 111, 106, 105, 101, 99, 95, 93, 92, 92, 91, 89, 89, 88, 87, 85, 83, 82, 82, 82, 79, 78, 78, 78, 77, 76, 76, 76, 75, 75, 75, 74, 73, 73, 72, 72, 72, 71, 71, 71, 71, 70, 70, 70, 70, 70, 70, 70, 70, 70, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 
+Inc: 1, 1, 2, 2, 3, 3, 3, 5, 6, 8, 11, 13, 18, 22, 28, 35, 41, 45, 49, 53, 66, 77, 88, 94, 101, 106, 108, 110, 110, 113, 111, 112, 108, 102, 100, 95, 94, 88, 84, 81, 76, 79, 75, 71, 70, 67, 67, 62, 62, 62, 60, 57, 51, 46, 43, 41, 41, 44, 45, 43, 51, 55, 55, 60, 64, 65, 68, 67, 72, 73, 73, 70, 67, 68, 63, 60, 58, 56, 52, 49, 41, 36, 33, 25, 21, 18, 17, 17, 17, 13, 12, 14, 13, 13, 12, 13, 13, 10, 8, 9, 7, 6, 7, 8, 6, 7, 6, 6, 6, 5, 5, 5, 5, 5, 4, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+Inf: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 4, 5, 6, 8, 9, 12, 16, 24, 31, 37, 41, 46, 51, 63, 71, 85, 93, 103, 102, 108, 108, 109, 110, 102, 97, 97, 97, 89, 87, 91, 88, 86, 79, 80, 86, 86, 91, 90, 85, 83, 83, 80, 79, 73, 77, 72, 73, 68, 63, 64, 59, 58, 59, 67, 72, 71, 73, 79, 80, 80, 82, 82, 85, 86, 85, 89, 89, 82, 78, 79, 77, 77, 71, 68, 65, 61, 58, 51, 49, 48, 48, 46, 44, 39, 30, 27, 27, 24, 24, 19, 17, 16, 14, 13, 13, 13, 13, 12, 9, 9, 10, 10, 10, 8, 8, 8, 7, 7, 6, 6, 4, 4, 2, 2, 3, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+Rec: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 3, 3, 4, 4, 7, 7, 8, 13, 16, 19, 24, 27, 32, 41, 50, 53, 59, 64, 72, 77, 78, 83, 86, 87, 91, 93, 95, 103, 107, 116, 116, 124, 125, 131, 138, 144, 150, 154, 159, 160, 164, 169, 173, 174, 177, 183, 187, 189, 192, 196, 199, 202, 205, 216, 222, 223, 225, 229, 236, 240, 245, 249, 253, 260, 263, 267, 269, 271, 275, 281, 289, 292, 294, 297, 298, 303, 305, 307, 309, 310, 311, 311, 312, 315, 318, 318, 318, 318, 318, 320, 320, 321, 322, 322, 323, 323, 325, 325, 327, 327, 327, 327, 327, 327, 327, 328, 329, 329, 329, 329, 329, 329, 329, 329, 329, 329, 329, 329, 329, 330, 
+Die: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 12, 19, 25, 28, 36, 46, 52, 56, 59, 59, 60, 62, 64, 66, 67, 67, 68, 70, 72, 78, 79, 81, 82, 84, 84, 84, 84, 84, 84, 84, 84, 85, 86, 86, 86, 86, 86, 86, 86, 86, 86, 86, 88, 90, 91, 94, 95, 97, 97, 98, 98, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 100, 100, 100, 100, 100, 100, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 
 Dead agents: 
-Age: 88 Is hospitalized: Yes Is critical: No
-Age: 94 Is hospitalized: Yes Is critical: No
-Age: 80 Is hospitalized: Yes Is critical: No
-Age: 5 Is hospitalized: Yes Is critical: No
-Age: 24 Is hospitalized: Yes Is critical: No
-Age: 48 Is hospitalized: Yes Is critical: No
-Age: 34 Is hospitalized: Yes Is critical: No
-Age: 16 Is hospitalized: Yes Is critical: No
-Age: 85 Is hospitalized: Yes Is critical: No
-Age: 23 Is hospitalized: Yes Is critical: No
-Age: 8 Is hospitalized: Yes Is critical: No
-Age: 37 Is hospitalized: Yes Is critical: No
-Age: 37 Is hospitalized: Yes Is critical: No
-Age: 27 Is hospitalized: Yes Is critical: No
-Age: 48 Is hospitalized: Yes Is critical: No
-Age: 83 Is hospitalized: Yes Is critical: No
-Age: 24 Is hospitalized: Yes Is critical: No
-Age: 98 Is hospitalized: Yes Is critical: No
-Age: 67 Is hospitalized: Yes Is critical: No
-Age: 18 Is hospitalized: Yes Is critical: No
-Age: 16 Is hospitalized: Yes Is critical: No
-Age: 7 Is hospitalized: Yes Is critical: No
-Age: 27 Is hospitalized: Yes Is critical: No
-Age: 42 Is hospitalized: Yes Is critical: No
-Age: 12 Is hospitalized: Yes Is critical: No
-Age: 93 Is hospitalized: Yes Is critical: Yes
-Age: 32 Is hospitalized: Yes Is critical: No
-Age: 24 Is hospitalized: Yes Is critical: No
-Age: 31 Is hospitalized: Yes Is critical: No
-Age: 26 Is hospitalized: Yes Is critical: No
-Age: 37 Is hospitalized: Yes Is critical: No
-Age: 52 Is hospitalized: Yes Is critical: No
-Age: 75 Is hospitalized: Yes Is critical: No
-Age: 17 Is hospitalized: Yes Is critical: No
-Age: 68 Is hospitalized: Yes Is critical: No
-Age: 13 Is hospitalized: Yes Is critical: No
-Age: 5 Is hospitalized: Yes Is critical: No
-Age: 10 Is hospitalized: Yes Is critical: No
-Age: 86 Is hospitalized: Yes Is critical: No
-Age: 19 Is hospitalized: Yes Is critical: No
-Age: 10 Is hospitalized: Yes Is critical: No
-Age: 27 Is hospitalized: Yes Is critical: No
-Age: 18 Is hospitalized: Yes Is critical: No
-Age: 10 Is hospitalized: Yes Is critical: No
-Age: 39 Is hospitalized: Yes Is critical: No
-Age: 90 Is hospitalized: Yes Is critical: Yes
-Age: 24 Is hospitalized: Yes Is critical: No
-Age: 32 Is hospitalized: Yes Is critical: No
-Age: 94 Is hospitalized: Yes Is critical: No
-Age: 92 Is hospitalized: Yes Is critical: No
-Age: 76 Is hospitalized: Yes Is critical: Yes
-Age: 76 Is hospitalized: Yes Is critical: No
+Age: 56 Survival rate: 0.9097897 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.911844 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 31 Survival rate: 0.7097691 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 10 Survival rate: 0.9118459 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 18 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 26 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 94 Survival rate: 0.7796959 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 4 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 31 Survival rate: 0.7097691 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 76 Survival rate: 0.5287414 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 68 Survival rate: 0.5521792 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 84 Survival rate: 0.6300578 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 11 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 96 Survival rate: 0.604629 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 31 Survival rate: 0.4612266 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 15 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 84 Survival rate: 0.6300578 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 79 Survival rate: 0.835794 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 8 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 4 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.911844 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 33 Survival rate: 0.709768 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 85 Survival rate: 0.4988025 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 22 Survival rate: 0.3868876 Days counter: 6 Is hospitalized: Yes Is critical: No
+Age: 54 Survival rate: 0.5641664 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 7 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 24 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 11 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 47 Survival rate: 0.3335372 Days counter: 7 Is hospitalized: Yes Is critical: No
+Age: 10 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 24 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 12 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 14 Survival rate: 0.3868876 Days counter: 6 Is hospitalized: Yes Is critical: No
+Age: 14 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 33 Survival rate: 0.5649747 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 3 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 85 Survival rate: 0.407205 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 81 Survival rate: 0.6417938 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 28 Survival rate: 0.5649762 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 5 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 29 Survival rate: 0.7097697 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 75 Survival rate: 0.364507 Days counter: 6 Is hospitalized: Yes Is critical: No
+Age: 28 Survival rate: 0.461227 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.7097687 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 41 Survival rate: 0.7097381 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.4612263 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 95 Survival rate: 0.4821356 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 71 Survival rate: 0.4449031 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 6 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 17 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 33 Survival rate: 0.295453 Days counter: 8 Is hospitalized: Yes Is critical: No
+Age: 82 Survival rate: 0.8192014 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 13 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 29 Survival rate: 0.4612269 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 8 Survival rate: 0.9118459 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 40 Survival rate: 0.9118158 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 51 Survival rate: 0.7092724 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 33 Survival rate: 0.709768 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 39 Survival rate: 0.709753 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 52 Survival rate: 0.4608147 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 7 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 55 Survival rate: 0.4603959 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 28 Survival rate: 0.5649762 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 25 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 44 Survival rate: 0.5649145 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 66 Survival rate: 0.1448497 Days counter: 6 Is hospitalized: Yes Is critical: Yes
+Age: 30 Survival rate: 0.5649759 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 62 Survival rate: 0.8184776 Days counter: 2 Is hospitalized: Yes Is critical: Yes
+Age: 19 Survival rate: 0.3868876 Days counter: 6 Is hospitalized: Yes Is critical: No
+Age: 10 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 11 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 48 Survival rate: 0.7095376 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.7097687 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 57 Survival rate: 0.9092851 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 90 Survival rate: 0.7880878 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 61 Survival rate: 0.9059681 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 46 Survival rate: 0.5648681 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 87 Survival rate: 0.4939902 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.5649753 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 47 Survival rate: 0.5648344 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 14 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 59 Survival rate: 0.5625498 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 5 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 14 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 65 Survival rate: 0 Days counter: 17 Is hospitalized: Yes Is critical: No
+Age: 32 Survival rate: 0.5649753 Days counter: 20 Is hospitalized: Yes Is critical: No
+Age: 23 Survival rate: 0.70977 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 40 Survival rate: 0.9118158 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 16 Survival rate: 0.5649764 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 85 Survival rate: 0.6480961 Days counter: 2 Is hospitalized: Yes Is critical: Yes
+Age: 25 Survival rate: 0.5649763 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 31 Survival rate: 0.5649756 Days counter: 4 Is hospitalized: Yes Is critical: No
+Age: 60 Survival rate: 0.7060264 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 75 Survival rate: 0.8590975 Days counter: 2 Is hospitalized: Yes Is critical: No
+Age: 30 Survival rate: 0.4612268 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 29 Survival rate: 0.7097697 Days counter: 3 Is hospitalized: Yes Is critical: No
+Age: 33 Survival rate: 0.4612258 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 27 Survival rate: 0.4612271 Days counter: 5 Is hospitalized: Yes Is critical: No
+Age: 81 Survival rate: 0 Days counter: 17 Is hospitalized: Yes Is critical: No
+Age: 85 Survival rate: 0.7715159 Days counter: 17 Is hospitalized: Yes Is critical: Yes
+Age: 94 Survival rate: 0 Days counter: 17 Is hospitalized: Yes Is critical: No
 Critical agents: 
-Age: 74 Is hospitalized: No Is critical: Yes
-Age: 90 Is hospitalized: Yes Is critical: Yes
-Age: 16 Is hospitalized: No Is critical: Yes
-Age: 86 Is hospitalized: No Is critical: Yes
-Age: 93 Is hospitalized: Yes Is critical: Yes
-Age: 29 Is hospitalized: No Is critical: Yes
-Age: 88 Is hospitalized: No Is critical: Yes
-Age: 76 Is hospitalized: Yes Is critical: Yes
-Age: 84 Is hospitalized: No Is critical: Yes
-Age: 77 Is hospitalized: No Is critical: Yes
+Age: 98 Survival rate: 0.714046 Days counter: 0 Status: recoveredIs hospitalized: No Is critical: Yes
+Age: 66 Survival rate: 0.1448497 Days counter: 6 Status: deadIs hospitalized: Yes Is critical: Yes
+Age: 88 Survival rate: 0.7503014 Days counter: 0 Status: recoveredIs hospitalized: No Is critical: Yes
+Age: 62 Survival rate: 0.8184776 Days counter: 2 Status: deadIs hospitalized: Yes Is critical: Yes
+Age: 75 Survival rate: 0.8785983 Days counter: 0 Status: recoveredIs hospitalized: No Is critical: Yes
+Age: 97 Survival rate: 0.7160289 Days counter: 0 Status: recoveredIs hospitalized: No Is critical: Yes
+Age: 99 Survival rate: 0.7122967 Days counter: 0 Status: recoveredIs hospitalized: No Is critical: Yes
+Age: 85 Survival rate: 0.6480961 Days counter: 2 Status: deadIs hospitalized: Yes Is critical: Yes
+Age: 85 Survival rate: 0.7715159 Days counter: 17 Status: deadIs hospitalized: Yes Is critical: Yes
+Age: 97 Survival rate: 0.7160289 Days counter: 0 Status: recoveredIs hospitalized: No Is critical: Yes
 
-Generations: 200
+Generations: 151
 -----------------------------
 

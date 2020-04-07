@@ -23,6 +23,7 @@ public class AgentController : MonoBehaviour
     public string status;
     public int side;
     public bool isCritical;
+    public float survivalRate;
 
     AgentController()
     {
