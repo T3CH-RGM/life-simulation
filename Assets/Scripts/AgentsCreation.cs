@@ -34,6 +34,7 @@ public class AgentsCreation : MonoBehaviour
     private int deadPlayground;
 
     public int quarantinePercent;
+    public int quarantineDuration;
     public bool inQuarantine;
     public bool hasBeenQuarantine;
     public int quarantineCounter;
@@ -113,16 +114,15 @@ public class AgentsCreation : MonoBehaviour
         foreach (AgentController agent in FindObjectsOfType<AgentController>())
         {
             AgentController agentController = agent.GetComponent<AgentController>();
-            // agentController.daysCounter++;
             if (agentController.status == "normal")
             {
-                agentController.daysCounter++;
+                agent.daysCounter++;
                 normal++;
                 if (!inQuarantine && Random.Range(0, agentsAmount) < agentsAmount * 0.01) agent.travel();
             }
             else if (agentController.status == "incubating")
             {
-                agentController.daysCounter++;
+                agent.daysCounter++;
                 if (agent.GetComponent<Renderer>().material.color == Color.green)
                 {
                     incubating++;
@@ -140,8 +140,6 @@ public class AgentsCreation : MonoBehaviour
                         agent.moveToHospital();
                         hospitalUse += 1.0f / (agentsAmount * hospitalSize / 100) * 100;
                     }
-
-                    if (agent.isCritical) criticalList.Add(agent);
                 }
                 else
                 {
@@ -153,25 +151,26 @@ public class AgentsCreation : MonoBehaviour
             {
                 if (agent.isHospitalized)
                 {
-                    agentController.daysCounter++;
+                    agent.daysCounter++;
                     if (agentController.daysCounter == agentController.diseaseDays)
                     {
                         float survivalRate = 0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f)); // adding age variation to surviving chances
                         if (agent.isCritical)
-                        {
                             survivalRate = Mathf.Pow(survivalRate, 2.0f);
-                            agent.survivalRate = survivalRate;
-                        }
+                        agent.survivalRate = survivalRate;
                         if (Random.Range(0.0f, 1.0f) > survivalRate)
                         {
                             agentController.die();
-                            dead++;
                             deadAgents.Add(agentController);
+                            if (agent.isCritical) criticalList.Add(agentController);
+
+                            dead++;
                         }
                         else
                         {
-                            agentController.daysCounter = 0;
                             agent.recover();
+                            if (agent.isCritical) criticalList.Add(agentController); 
+
                             recovered++;
                         }
                         hospitalUse -= 1.0f / (agentsAmount * hospitalSize / 100) * 100;
@@ -188,13 +187,14 @@ public class AgentsCreation : MonoBehaviour
                     if (hospitalUse < 100)
                     {
                         infected++;
-                        agentController.daysCounter = 0;
-                        agentController.moveToHospital();
+                        agent.daysCounter = 0;
+                        agent.moveToHospital();
+                        agent.isHospitalized = true;
                         hospitalUse += 1.0f / (agentsAmount * hospitalSize / 100) * 100;
                     }
                     else
                     {
-                        agentController.daysCounter++;
+                        agent.daysCounter++;
                         float survivalRate = Mathf.Exp(-(agentController.daysCounter - 1) / 3.0f) + 0.2f;
                         survivalRate *= (0.8359247f + (0.9948879f - 0.8359247f) / (1.0f + Mathf.Pow((agentController.age / 78.44983f), 12.59674f))); // adding age variation to surviving chances
                         if (agent.isCritical)
@@ -203,8 +203,10 @@ public class AgentsCreation : MonoBehaviour
                         if (Random.Range(0.0f, 1.0f) > survivalRate)
                         {
                             agentController.die();
-                            dead++;
                             deadAgents.Add(agentController);
+                            if (agent.isCritical) criticalList.Add(agentController);
+                            
+                            dead++;
                             activeCases--;
                         }
                         else
@@ -229,13 +231,13 @@ public class AgentsCreation : MonoBehaviour
         else if (inQuarantine)
         {
             quarantineCounter++;
-            if (infected <= agentsAmount * (quarantinePercent * 0.3f) / 100.0f || quarantineCounter == 28)
+            if (infected <= agentsAmount * (quarantinePercent * 0.3f) / 100.0f || quarantineCounter == quarantineDuration)
             {
                 hasBeenQuarantine = true;
                 inQuarantine = false;
                 Debug.Log("No more quarantine. Live normally.");
             }
-        }
+        } else if(hasBeenQuarantine) quarantineCounter++;
         activeCases = infected;
         showStats(generation, agentsInGeneration, normal, incubating, infected, recovered, dead, cases, activeCases);
         generation++;
@@ -290,7 +292,7 @@ public class AgentsCreation : MonoBehaviour
                 content += "Age: " + data.age + " ";
                 content += "Survival rate: " + data.survivalRate + " ";
                 content += "Days counter: " + data.daysCounter + " ";
-                content += "Is hospitalized: " + (data.isHospitalized ? "Yes" : "No") + " ";
+                content += "Hospitalized: " + (data.isHospitalized ? "Yes" : "No") + " ";
                 content += "Is critical: " + (data.isCritical ? "Yes" : "No");
                 content += "\n";
             }
@@ -300,8 +302,8 @@ public class AgentsCreation : MonoBehaviour
                 content += "Age: " + data.age + " ";
                 content += "Survival rate: " + data.survivalRate + " ";
                 content += "Days counter: " + data.daysCounter + " ";
-                content += "Status: " + data.status;
-                content += "Is hospitalized: " + (data.isHospitalized ? "Yes" : "No") + " ";
+                content += "Status: " + data.status + " ";
+                content += "Hospitalized: " + (data.isHospitalized ? "Yes" : "No") + " ";
                 content += "Is critical: " + (data.isCritical ? "Yes" : "No");
                 content += "\n";
             }

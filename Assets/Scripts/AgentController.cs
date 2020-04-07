@@ -74,8 +74,8 @@ public class AgentController : MonoBehaviour
             }
 
             float speed = 4;
-            if (FindObjectsOfType<AgentsCreation>()[0].inQuarantine) speed /= 2.0f;
-            else if (FindObjectsOfType<AgentsCreation>()[0].hasBeenQuarantine) speed /= 1.3f;
+            if (FindObjectsOfType<AgentsCreation>()[0].inQuarantine) speed *= 0.20f;
+            else if (FindObjectsOfType<AgentsCreation>()[0].hasBeenQuarantine) speed *= (FindObjectsOfType<AgentsCreation>()[0].quarantineCounter * 1.0f) / (FindObjectsOfType<AgentsCreation>()[0].quarantineCounter + FindObjectsOfType<AgentsCreation>()[0].quarantineDuration);
 
             transform.position = Vector3.MoveTowards(transform.position, nextPlace, speed * Time.deltaTime);
 
@@ -121,18 +121,18 @@ public class AgentController : MonoBehaviour
         GetComponent<Renderer>().material.color = Color.blue;
         status = "recovered";
         moveToPlayground();
-        daysCounter = 0;
     }
 
     public void moveToHospital()
     {
-        isHospitalized = true;
+        if (status == "infected")
+            isHospitalized = true;
         Vector3 agentPosition = transform.position;
         transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z + 120.0f);
     }
     public void moveToPlayground()
     {
-        isHospitalized = false;
+        // isHospitalized = false;
         Vector3 agentPosition = transform.position;
         transform.position = new Vector3(agentPosition.x, agentPosition.y, agentPosition.z - 120.0f);
     }
@@ -148,8 +148,8 @@ public class AgentController : MonoBehaviour
 
     public void die()
     {
+        status = "dead";
         if (!isHospitalized) moveToHospital();
         GetComponent<Renderer>().material.color = Color.black;
-        status = "dead";
     }
 }
